@@ -3,8 +3,7 @@ const mongoose = require('mongoose');
 const billSchema = new mongoose.Schema({
   billNo: {
     type: Number,
-    required: true,
-    unique: true,
+    required: true, 
     default:0
   },
   items:[],

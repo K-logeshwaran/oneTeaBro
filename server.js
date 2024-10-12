@@ -4,6 +4,7 @@ const session = require('express-session');
 const mongoose = require('mongoose');
 const Item = require('./models/item');
 const Bill = require('./models/bill');
+const MongoStore = require('connect-mongo');
 
 const app = express();
 const PORT = process.env.PORT || 3060;
@@ -20,6 +21,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(session({
     secret: process.env.SECRET,
     resave: false,
+    store: MongoStore.create({
+      mongoUrl: process.env.DATABASE_URL,
+      collectionName: 'sessions', // Optional: specify the collection for sessions
+      ttl: 1 * 60 
+  }),
     saveUninitialized: true,
     cookie: { secure: false } // Set to true if using HTTPS
 }));
@@ -49,7 +55,10 @@ app.post('/checkout', (req, res) => {
     console.log(req.body);
     //res.send('http://192.168.1.41:3060/bill');
     res.send('https://oneteabro.onrender.com/bill');
+    //res.send('http://localhost:3060/bill');
+    
 });
+
 
 
 async function getPreviousBillNO(){
