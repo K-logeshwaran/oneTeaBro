@@ -7,7 +7,7 @@ const Bill = require('./models/bill');
 
 const app = express();
 const PORT = process.env.PORT || 3060;
-
+require('dotenv').config()
 // Set EJS as the templating engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // Configure session middleware
 app.use(session({
-    secret: 'qeqwqwjasncjasnacaAX_ASxajxnasxnasioxjasxS_ASxasklxnasxasx', // Change this to a random string
+    secret: process.env.SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false } // Set to true if using HTTPS
@@ -48,7 +48,7 @@ app.post('/checkout', (req, res) => {
     req.session.items = req.body;
     console.log(req.body);
     //res.send('http://192.168.1.41:3060/bill');
-    res.send('https://a269-103-208-230-91.ngrok-free.app/bill');
+    res.send('https://oneTeaBro.onrender.com//bill');
 });
 
 
@@ -150,13 +150,11 @@ app.post("/admin/add",async (req,res)=>{
 
 
 
-mongoose.connect("mongodb+srv://ca225113134:aFTR4CCQwTI1pQl7@clusteruganda.kpt8b.mongodb.net", {
+mongoose.connect(process.env.DATABASE_URL , {
 })
 .then(() =>{
     console.log('MongoDB connected...')
-// app.listen(PORT, "192.168.1.41",() => {
-//     console.log(`Server is running on http://localhost:${PORT}`);
-// });
+
 
 app.listen(PORT,() => {
   console.log(`Server is running on http://localhost:${PORT}`);
