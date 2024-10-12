@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <title>Home</title>
+    <style>
+        p {
+            margin: 0;
+        }
+        .horizontal-card {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        }
+        .item-details {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .ctrl-btn-grp {
+            display: flex;
+            justify-content: space-around;
+        }
+        .for-tot{
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+            padding: .5rem 0;
+        }
+        .for-tot p{
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+<main>
+    <div class="d-flex flex-column ">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" id="searchInput" placeholder="Search for items..." aria-label="Search" oninput="filterItems()">
+        </div>
+        <div id="itemsContainer" class="d-flex flex-column gap-3 mb-3">
+            <div class="for-tot">
+                <p>TOTAL</p>
+                <p id="whole-bill-total">0</p>
+            </div>
+            <% items.forEach(item => { item.count = 0; %>
+            <div class="horizontal-card item-card" data-title="<%= item.title %>">
+                <div style="flex-basis: 25%;">
+                    <img id="<%= item.id %>" width="100%" src="<%= item.image %>" alt="item">
+                </div>
+                <div style="flex-basis: 30%;" class="item-details">
+                    <p><%= item.title %></p>
+                    <p id="<%= item.id %>-item-price"><%= item.price %></p>
+                </div>
+                <div class="ctrl-btn-grp" style="flex-basis: 40%;">
+                    <button class="btn btn-danger" style="flex-basis: 25%;" type="button" onclick="decrement('<%= item.id %>-item')">-</button>
+                    <button id="<%= item.id %>-item" class="<%= item.id %>-item" style="flex-basis: 25%; border: none; background-color: aliceblue;color: black;" type="button"><%= item.count %></button>
+                    <button class="btn btn-success" style="flex-basis: 25%;" type="button" onclick="increment('<%= item.id %>-item')">+</button>
+                </div>
+            </div>
+            <% }); %>
+        </div>
+
+        <div class="w-100 my-3 d-flex justify-content-center">
+            <button onclick="checkoutfn()" class="w-75 btn btn-primary">Checkout</button>
+        </div>
+    </div>
+</main>
+<script src="checkout.js"></script>
+<script>
+    function filterItems() {
+        const input = document.getElementById('searchInput');
+        const filter = input.value.toLowerCase();
+        const items = document.querySelectorAll('.item-card');
+
+        items.forEach(item => {
+            const title = item.getAttribute('data-title').toLowerCase();
+            if (title.includes(filter)) {
+                item.style.display = '';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <title>About</title>
+</head>
+
+    <main>
+        <table id="billTable" border="0" cellpadding="5" cellspacing="5" width="100%">
+            <tr>
+                <th colspan="7"><h3 style="text-align: center;">One Tea Bro</h3> </th>
+            </tr>
+            <tr>
+                <td colspan="3">Bill No:</td>
+                <td colspan="2"></td>
+                
+                <td colspan="3"><%= billNO %></td>
+            </tr>
+            <tr>
+                <td colspan="3">Bill Date:</td>
+                <td colspan="2"></td>
+                <td colspan="3"><%= date  %></td>
+            </tr>
+            
+            <!-- Dotted line -->
+            <tr>
+                <td colspan="8" style="border-top: 1px dotted black;"></td>
+            </tr>
+            
+            <tr>
+                <td>Item</td>
+                <td></td>
+                <td>Qty</td>
+                <td></td>
+                <td>Rate</td>
+                <td></td>
+                <td>Total</td>
+            </tr>
+            <% items.forEach(item=>{ %>
+             <tr>
+                <td><%= item.name %></td>
+                <td></td>
+                <td><%= item.quantity %></td>
+                <td></td>
+                <td><%= item.price %></td>
+                <td></td>
+                <td><%= item.total %></td>
+            </tr>
+            <% }); %>
+             <tr>
+                <td colspan="8" style="border-top: 1px dotted black;"></td>
+            </tr>
+             <tr>
+                <td>Total</td>
+                <td colspan="5" ></td>
+                <td><%= total  %></td>
+            </tr>
+            
+             <tr>
+                <td colspan="8" style="border-top: 1px dotted black;"></td>
+            </tr>
+        </table>
+        <div class="w-100 my-3 d-flex justify-content-center">
+            <button onclick="printTable()"  class="w-75 btn btn-primary">Print</button>
+          </div>
+        </div>
+    </main>
+    <script>
+        
+        function printTable(){
+            let table = document.getElementById("billTable").outerHTML; // Get the HTML of the table
+            let newWindow = window.open('', '', 'width=600,height=600'); // Create a new window
+            newWindow.document.write('<html><head><title>Print Table</title>');
+            newWindow.document.write('<style> table { width: 70%; margin:auto; border-collapse: collapse; } th, td { border: 0; padding: 8px; text-align: left; } th { background-color: #f2f2f2; }</style>');
+            newWindow.document.write('</head><body>');
+            newWindow.document.write(table); // Write the table HTML
+            newWindow.document.write('</body></html>');
+            newWindow.document.close(); // Close the document
+            newWindow.print(); // Print the new window
+                }
+            fetch("/bill/close").then(response=>response.text()).then(msg=>{console.log(msg)});
+            
+    </script>
+</body>
+</html>
