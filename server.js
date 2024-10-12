@@ -48,7 +48,7 @@ app.post('/checkout', (req, res) => {
     req.session.items = req.body;
     console.log(req.body);
     //res.send('http://192.168.1.41:3060/bill');
-    res.send('https://oneTeaBro.onrender.com//bill');
+    res.send('https://oneteabro.onrender.com/bill');
 });
 
 
